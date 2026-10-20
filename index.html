@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TriGo | Book a tricycle in Bolinao</title>
+  <meta name="description" content="TriGo is the tricycle booking app of the Bolinao Tricycle Operators and Drivers Federation (BTODF). See your fare, track your driver, and ride safer. Free for Android.">
+  <meta name="theme-color" content="#C1663D">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ========== Top bar ========== -->
+  <header class="topbar">
+    <a href="#top" class="brand" aria-label="TriGo home">
+      <span class="brand-badge"><span class="logo-mark" aria-hidden="true"></span><i class="ph-fill ph-motorcycle logo-fallback" aria-hidden="true"></i></span>
+      <span class="brand-name">TriGo</span>
+    </a>
+    <nav class="topnav" aria-label="Sections">
+      <a href="#how">How it works</a>
+      <a href="#safety">Safety</a>
+      <a href="#install">Install</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn btn-small download-link" href="https://github.com/grykzx/trigo-releases/releases/latest/download/TriGo.apk">
+      <i class="ph-fill ph-download-simple"></i> Download
+    </a>
+  </header>
+
+  <main id="top">
+
+    <!-- ========== Hero ========== -->
+    <section class="hero">
+      <div class="hero-copy">
+        <h1>Book a tricycle in Bolinao.</h1>
+        <p class="lede">See your fare before you ride, get the nearest available driver, and watch them come to you on the map. Made with the Bolinao Tricycle Operators and Drivers Federation.</p>
+
+        <div class="cta-row">
+          <a class="btn btn-big download-link" href="https://github.com/grykzx/trigo-releases/releases/latest/download/TriGo.apk">
+            <i class="ph-fill ph-android-logo"></i>
+            <span class="btn-stack">
+              <span>Download for Android</span>
+              <small class="release-meta">Free, latest version</small>
+            </span>
+          </a>
+          <a class="text-link" href="#install">How to install</a>
+        </div>
+        <p class="fine">Android phones only. Not available for iPhone yet.</p>
+      </div>
+
+      <!-- Phone: TriGo's "driver on the way" screen, drawn in HTML/CSS -->
+      <div class="phone-wrap" aria-hidden="true">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="screen">
+            <div class="map">
+              <svg class="route" viewBox="0 0 300 330" preserveAspectRatio="none">
+                <path id="routePath" d="M60 290 C 70 230, 130 250, 150 200 S 170 120, 240 70"/>
+              </svg>
+              <span class="pin pin-pickup"><span class="pin-label">You</span><i class="ph-fill ph-map-pin"></i></span>
+              <span class="trike"><i class="ph-fill ph-motorcycle"></i></span>
+              <div class="eta-chip"><i class="ph-fill ph-clock"></i> <span id="etaText">Arriving in 3 min</span></div>
+            </div>
+            <div class="sheet">
+              <div class="sheet-handle"></div>
+              <div class="sheet-title">Your driver is on the way</div>
+              <div class="driver-row">
+                <span class="avatar"><i class="ph-fill ph-user"></i></span>
+                <div class="driver-info">
+                  <strong>Ramon D.</strong>
+                  <span>Patar TODA, plate ABC 123</span>
+                </div>
+                <span class="stars"><i class="ph-fill ph-star"></i> 4.8</span>
+              </div>
+              <div class="sheet-actions">
+                <span class="mini-btn"><i class="ph ph-phone"></i> Call</span>
+                <span class="mini-btn"><i class="ph ph-chat-circle-dots"></i> Message</span>
+                <span class="mini-btn sos">SOS</span>
+              </div>
+              <div class="trip-rows">
+                <div><span class="dot dot-from"></span>Your location</div>
+                <div><span class="dot dot-to"></span>Bolinao town plaza<span class="pay">Cash</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Who it's for ========== -->
+    <section class="roles" aria-labelledby="roles-title">
+      <div class="section-head">
+        <h2 id="roles-title">One app for both sides of the ride.</h2>
+        <div class="role-switch" role="tablist" aria-label="Show features for">
+          <button role="tab" id="tab-commuter" aria-selected="true" aria-controls="panel-commuter" class="role-tab active">I'm a commuter</button>
+          <button role="tab" id="tab-driver" aria-selected="false" aria-controls="panel-driver" class="role-tab" tabindex="-1">I'm a driver</button>
+        </div>
+      </div>
+
+      <div id="panel-commuter" class="role-panel" role="tabpanel" aria-labelledby="tab-commuter">
+        <ul class="feature-list">
+          <li><i class="ph ph-map-trifold"></i><div><strong>Book from where you are</strong><span>Your pickup is found from your phone's location. Search a destination, tap a recent trip, or drop a pin on the map.</span></div></li>
+          <li><i class="ph ph-receipt"></i><div><strong>Know the fare first</strong><span>The fare is shown before you confirm, using the rates of the TODA nearest your pickup.</span></div></li>
+          <li><i class="ph ph-navigation-arrow"></i><div><strong>Track your driver</strong><span>See your driver move on the map with an arrival time, then follow the trip to your destination.</span></div></li>
+          <li><i class="ph ph-chat-circle-dots"></i><div><strong>Message or call</strong><span>Talk to your driver inside the app or call them with one tap.</span></div></li>
+          <li><i class="ph ph-wallet"></i><div><strong>Pay cash or GCash</strong><span>Pay the driver in cash, or send GCash and attach your receipt in the app.</span></div></li>
+          <li><i class="ph ph-student"></i><div><strong>Student, senior and PWD discount</strong><span>Attach your ID once and the discount is applied when you book.</span></div></li>
+        </ul>
+      </div>
+
+      <div id="panel-driver" class="role-panel" role="tabpanel" aria-labelledby="tab-driver" hidden>
+        <ul class="feature-list">
+          <li><i class="ph ph-toggle-right"></i><div><strong>Go online, get nearby bookings</strong><span>When you're online, bookings from commuters near you come straight to your phone. You have 50 seconds to accept or decline.</span></div></li>
+          <li><i class="ph ph-path"></i><div><strong>Route to pickup and destination</strong><span>The map shows the road to your passenger, then to where they're going.</span></div></li>
+          <li><i class="ph ph-coins"></i><div><strong>Your earnings, only for you</strong><span>See what you earned today, this week and this month. Nobody else sees your earnings.</span></div></li>
+          <li><i class="ph ph-identification-card"></i><div><strong>Check discount IDs</strong><span>See the ID a passenger attached and remove the discount if it doesn't match.</span></div></li>
+          <li><i class="ph ph-check-circle"></i><div><strong>Confirm GCash payments</strong><span>Check the passenger's receipt and mark the payment received.</span></div></li>
+          <li><i class="ph ph-seal-check"></i><div><strong>Approved by your TODA and BTODF</strong><span>Sign up with your license, OR/CR, mayor's permit and franchise. Your TODA President and BTODF approve you before your first trip.</span></div></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== How a ride works ========== -->
+    <section id="how" class="how" aria-labelledby="how-title">
+      <h2 id="how-title">How a ride works</h2>
+      <ol class="route-steps">
+        <li><span class="stop">1</span><strong>Set your destination</strong><span>Search, pick a recent trip, or drop a pin.</span></li>
+        <li><span class="stop">2</span><strong>Check the fare</strong><span>See the full fare and confirm, cash or GCash.</span></li>
+        <li><span class="stop">3</span><strong>A driver accepts</strong><span>The nearest available driver gets your booking.</span></li>
+        <li><span class="stop">4</span><strong>Track and ride</strong><span>Watch them arrive, then ride to your stop.</span></li>
+        <li><span class="stop stop-end"><i class="ph-fill ph-map-pin"></i></span><strong>Pay and rate</strong><span>Pay your driver and rate the trip.</span></li>
+      </ol>
+    </section>
+
+    <!-- ========== Safety ========== -->
+    <section id="safety" class="safety" aria-labelledby="safety-title">
+      <div class="safety-inner">
+        <div class="safety-copy">
+          <h2 id="safety-title">Help is one tap away during every trip.</h2>
+          <p>Commuters and drivers can both send an SOS from the trip screen. BTODF sees the alert with your location and responds.</p>
+        </div>
+        <ul class="safety-list">
+          <li>
+            <span class="level level-red">Red alert</span>
+            <p>Accident, medical emergency, threat or danger. Life-threatening, handled first.</p>
+          </li>
+          <li>
+            <span class="level level-blue">Blue alert</span>
+            <p>Lost, stranded or other problems that need help but aren't life-threatening.</p>
+          </li>
+          <li>
+            <span class="level level-plain"><i class="ph ph-phone-call"></i> Hotlines</span>
+            <p>Call or text 911 and Bolinao emergency numbers right from the SOS screen.</p>
+          </li>
+          <li>
+            <span class="level level-plain"><i class="ph ph-shield-check"></i> Verified drivers</span>
+            <p>Every driver is checked by their TODA and BTODF. After a trip you can rate them or file a report.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== Install ========== -->
+    <section id="install" class="install" aria-labelledby="install-title">
+      <div class="install-steps">
+        <h2 id="install-title">Install TriGo</h2>
+        <p class="install-intro">TriGo isn't on the Play Store yet, so you install it from this page. It takes about two minutes.</p>
+        <ol class="steps">
+          <li><strong>Download the app.</strong> Tap Download. The file is about 58 MB, so Wi-Fi is best.</li>
+          <li><strong>Open the file.</strong> Tap the download notification, or open Files, then Downloads, then TriGo.</li>
+          <li><strong>Allow the install.</strong> If your phone asks, allow installing apps from your browser or Files app, then tap Install.</li>
+          <li><strong>If Play Protect warns you,</strong> tap More details, then Install anyway. Google shows this for apps from outside the Play Store.</li>
+          <li><strong>Open TriGo and sign up</strong> as a commuter or a driver.</li>
+        </ol>
+        <a class="btn btn-big download-link" href="https://github.com/grykzx/trigo-releases/releases/latest/download/TriGo.apk">
+          <i class="ph-fill ph-android-logo"></i>
+          <span class="btn-stack"><span>Download for Android</span><small class="release-meta">Free, latest version</small></span>
+        </a>
+      </div>
+
+      <aside class="qr-card" aria-label="Open this page on your phone">
+        <div id="qr" class="qr"></div>
+        <p><strong>On a computer?</strong> Scan this with your phone's camera to open this page there.</p>
+        <button class="text-link" id="printBtn" type="button"><i class="ph ph-printer"></i> Print a poster for your terminal</button>
+      </aside>
+    </section>
+
+    <!-- ========== FAQ ========== -->
+    <section id="faq" class="faq" aria-labelledby="faq-title">
+      <h2 id="faq-title">Questions</h2>
+      <div class="faq-list">
+        <details>
+          <summary>Does TriGo cost anything?</summary>
+          <p>No. The app is free. You only pay your tricycle fare, the same way you pay a driver today.</p>
+        </details>
+        <details>
+          <summary>How is the fare computed?</summary>
+          <p>Fares follow the per-kilometer rates set by BTODF and each TODA. The app uses the rates of the TODA nearest your pickup and shows the full fare before you book. A booking hires the whole tricycle, so a group can split the fare.</p>
+        </details>
+        <details>
+          <summary>Who gets the student, senior or PWD discount?</summary>
+          <p>The person who books, after attaching a valid ID in their profile. The driver may check the ID during the trip.</p>
+        </details>
+        <details>
+          <summary>Why does my phone warn me when I install it?</summary>
+          <p>Android warns about any app that doesn't come from the Play Store. TriGo is shared directly by its developers for BTODF, so tap More details, then Install anyway.</p>
+        </details>
+        <details>
+          <summary>How do I become a TriGo driver?</summary>
+          <p>Download the app, sign up as a driver, choose your TODA, and upload your driver's license, OR/CR, mayor's permit and franchise. Your TODA President screens your application and BTODF gives the final approval.</p>
+        </details>
+        <details>
+          <summary>How do I update the app?</summary>
+          <p>Download it again from this page and install it over the old one. Your account and trips stay.</p>
+        </details>
+        <details>
+          <summary>Is there an iPhone version?</summary>
+          <p>Not yet. TriGo works on Android phones only for now.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- ========== Closing ========== -->
+    <section class="closing">
+      <h2>Your next ride starts at the terminal near you.</h2>
+      <a class="btn btn-big btn-light download-link" href="https://github.com/grykzx/trigo-releases/releases/latest/download/TriGo.apk">
+        <i class="ph-fill ph-android-logo"></i>
+        <span class="btn-stack"><span>Download TriGo</span><small class="release-meta">Free, latest version</small></span>
+      </a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="brand brand-footer">
+      <span class="brand-badge"><span class="logo-mark" aria-hidden="true"></span><i class="ph-fill ph-motorcycle logo-fallback" aria-hidden="true"></i></span>
+      <span class="brand-name">TriGo</span>
+    </div>
+    <p>Tricycle booking for the Bolinao Tricycle Operators and Drivers Federation (BTODF), Bolinao, Pangasinan.</p>
+    <p class="footer-small"><span id="releaseInfo">Android app.</span></p>
+  </footer>
+
+  <!-- Printed poster (only on paper) -->
+  <div class="poster" aria-hidden="true">
+    <span class="brand-badge poster-badge"><span class="logo-mark"></span><i class="ph-fill ph-motorcycle logo-fallback"></i></span>
+    <h1>Book a tricycle with TriGo</h1>
+    <p>Scan to download the app for Android</p>
+    <div id="qrPoster" class="poster-qr"></div>
+    <p class="poster-url">grykzx.github.io/trigo-releases</p>
+    <p class="poster-small">Bolinao Tricycle Operators and Drivers Federation (BTODF)</p>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
