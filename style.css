@@ -4,7 +4,8 @@
    Same brand as the app and the officer portal: ivory, terracotta and
    cacao, Fraunces for headings, Plus Jakarta Sans for everything else.
    The one showpiece is the phone in the hero, where a tricycle drives
-   to the "You" pin once on load. Everything else stays quiet. */
+   to the "You" pin once on load. The rest of the page eases in as you
+   scroll (MOTION, near the end); nothing moves on its own after that. */
 
 :root {
   --ivory: #fdf8f0;
@@ -66,6 +67,11 @@ a { color: inherit; }
   transition: background 0.15s;
 }
 .btn:hover { background: var(--terracotta-dark); }
+@media (prefers-reduced-motion: no-preference) {
+  .btn { transition: background 0.15s, transform 0.2s, box-shadow 0.2s; }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(122, 63, 32, 0.25); }
+  .btn:active { transform: translateY(0); box-shadow: none; }
+}
 .btn-small { padding: 9px 16px; font-size: 14px; gap: 8px; border-radius: 10px; }
 .btn-big { padding: 14px 22px 14px 18px; font-size: 16px; }
 .btn-big > i { font-size: 30px; }
@@ -389,6 +395,40 @@ main > section { padding: 88px max(16px, calc((100% - var(--page)) / 2)); }
 
 /* ===== Printed poster ===== */
 .poster { display: none; }
+/* ===== MOTION (script.js, part 6) =====
+   Only active once the script adds .motion to <html>, so without
+   JavaScript, or with "reduce motion" on, everything is just visible.
+   Each item starts slightly lower and transparent, and eases in when it
+   scrolls into view (.in); items in one list follow each other (--d). */
+.motion .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(var(--d, 0) * 90ms);
+}
+.motion .phone-wrap.reveal { transform: translateY(36px) scale(0.97); transition-duration: 0.9s; }
+.motion .reveal.in { opacity: 1; transform: none; }
+
+/* The dotted route line draws from the first stop to the last. */
+.motion .route-steps::before {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.2s cubic-bezier(0.45, 0, 0.25, 1) 0.2s;
+}
+.motion .route-steps.in::before { clip-path: inset(0 0 0 0); }
+@media (max-width: 760px) {
+  .motion .route-steps::before { clip-path: inset(0 0 100% 0); }
+  .motion .route-steps.in::before { clip-path: inset(0 0 0 0); }
+}
+
+/* The stop numbers pop in, one after another, as the line reaches them. */
+.motion .route-steps .stop { transform: scale(0.4); opacity: 0; transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s; }
+.motion .route-steps li.in .stop { transform: none; opacity: 1; transition-delay: calc(var(--d, 0) * 180ms + 0.25s); }
+
+/* An opened FAQ answer fades in. */
+.motion .faq details[open] p { animation: faqOpen 0.35s ease-out; }
+@keyframes faqOpen { from { opacity: 0; transform: translateY(-4px); } }
+
 @media print {
   @page { size: A4 portrait; margin: 18mm; }
   body { background: #fff; }

@@ -9,6 +9,9 @@
 //   3. the version, release date and file size, read from GitHub
 //   4. the QR codes (on screen for computer visitors, and on the poster)
 //   5. the "Arrived" moment when the tricycle in the hero reaches the pin
+//   6. motion: the hero fades in on load, and each section, list item
+//      and the dotted route line appear as you scroll to them (see the
+//      MOTION part of style.css)
 //
 // WHERE THE APP FILE LIVES: this repo's GitHub Releases. Every Download
 // button links to ".../releases/latest/download/TriGo.apk", which always
@@ -91,4 +94,59 @@ const SITE_URL = "https://grykzx.github.io/trigo-releases/";
     chip.classList.add("arrived");
     text.textContent = "Your driver has arrived";
   });
+})();
+
+// ---------- 6. Motion ----------
+// Adds class "motion" to <html>, which turns on the hidden starting
+// state in style.css. Without this script (or with "reduce motion" set
+// on the phone or computer) that class is never added, so everything is
+// simply visible: the page never depends on the animation.
+(function motion() {
+  const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce || !("IntersectionObserver" in window)) return;
+  document.documentElement.classList.add("motion");
+
+  // [selector, stagger the items inside one parent?]
+  const groups = [
+    [".hero-copy > *", true],
+    [".phone-wrap", false],
+    [".section-head, .how h2, .safety-copy, .install-steps > h2, .install-intro, .faq h2, .closing > *", false],
+    [".feature-list li, .route-steps li, .safety-list li, .steps li, .faq details", true],
+    [".install-steps > .btn, .qr-card", false],
+  ];
+  const items = [];
+  groups.forEach(([selector, stagger]) => {
+    document.querySelectorAll(selector).forEach((el) => {
+      if (el.classList.contains("reveal")) return;
+      const index = stagger && el.parentElement ? [...el.parentElement.children].indexOf(el) : 0;
+      el.style.setProperty("--d", Math.min(index, 6));
+      el.classList.add("reveal");
+      items.push(el);
+    });
+  });
+  const route = document.querySelector(".route-steps");
+  if (route) items.push(route);
+
+  const seen = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("in");
+      seen.unobserve(entry.target);
+    });
+  }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+  items.forEach((el) => seen.observe(el));
+
+  // Switching "I'm a commuter / I'm a driver" fades the new list in.
+  document.querySelectorAll(".role-tab").forEach((tab) =>
+    tab.addEventListener("click", () => {
+      const panel = document.getElementById(tab.getAttribute("aria-controls"));
+      panel?.querySelectorAll(".feature-list li").forEach((li, i) => {
+        li.classList.add("in");
+        li.animate(
+          [{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "none" }],
+          { duration: 420, delay: i * 60, easing: "cubic-bezier(0.22, 1, 0.36, 1)", fill: "backwards" }
+        );
+      });
+    })
+  );
 })();
