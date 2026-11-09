@@ -12,6 +12,15 @@
 //   6. motion: the hero fades in on load, and each section, list item
 //      and the dotted route line appear as you scroll to them (see the
 //      MOTION part of style.css)
+//   7. the video guides popup (commuter and driver tutorials on YouTube)
+//
+// VIDEO GUIDES: paste each YouTube link into VIDEOS below (the full link
+// from Share, or just the video ID). A guide with no link is simply not
+// shown; with no links at all, the "Watch" buttons stay hidden.
+const VIDEOS = {
+  commuter: { link: "https://youtu.be/dqvAcw-deNo", note: "Book a ride, track your driver, pay and rate. 2:17" },
+  driver: { link: "https://youtu.be/w-hQUDZDzZA", note: "Sign up, get approved, accept a booking and get paid. 2:15" },
+};
 //
 // WHERE THE APP FILE LIVES: this repo's GitHub Releases. Every Download
 // button links to ".../releases/latest/download/TriGo.apk", which always
@@ -31,7 +40,7 @@ const SITE_URL = "https://grykzx.github.io/trigo-releases/";
 
 // ---------- 2. Commuter / driver switch ----------
 (function roleSwitch() {
-  const tabs = [...document.querySelectorAll(".role-tab")];
+  const tabs = [...document.querySelectorAll(".roles .role-tab")];   // not the tabs in the video popup
   const select = (tab) => {
     tabs.forEach((t) => {
       const on = t === tab;
@@ -137,7 +146,7 @@ const SITE_URL = "https://grykzx.github.io/trigo-releases/";
   items.forEach((el) => seen.observe(el));
 
   // Switching "I'm a commuter / I'm a driver" fades the new list in.
-  document.querySelectorAll(".role-tab").forEach((tab) =>
+  document.querySelectorAll(".roles .role-tab").forEach((tab) =>
     tab.addEventListener("click", () => {
       const panel = document.getElementById(tab.getAttribute("aria-controls"));
       panel?.querySelectorAll(".feature-list li").forEach((li, i) => {
@@ -149,4 +158,62 @@ const SITE_URL = "https://grykzx.github.io/trigo-releases/";
       });
     })
   );
+})();
+
+// ---------- 7. Video guides ----------
+// Opens a popup with the YouTube player. The player is only loaded when
+// the popup opens (nothing from YouTube loads with the page), and it is
+// removed when the popup closes, so the video stops.
+(function videoGuides() {
+  // Accepts youtu.be/ID, youtube.com/watch?v=ID, /shorts/ID, /embed/ID or a bare ID.
+  const videoId = (link) => {
+    const s = (link || "").trim();
+    if (/^[\w-]{11}$/.test(s)) return s;
+    const m = s.match(/(?:youtu\.be\/|[?&]v=|\/shorts\/|\/embed\/|\/live\/)([\w-]{11})/);
+    return m ? m[1] : "";
+  };
+  const ids = {};
+  Object.keys(VIDEOS).forEach((kind) => { const id = videoId(VIDEOS[kind].link); if (id) ids[kind] = id; });
+  const kinds = Object.keys(ids);
+
+  const modal = document.getElementById("videoModal");
+  if (!kinds.length || !modal || typeof modal.showModal !== "function") return;
+
+  const player = document.getElementById("videoPlayer");
+  const note = document.getElementById("videoNote");
+  const tabs = [...modal.querySelectorAll(".video-tab")];
+
+  // Show only the buttons and tabs that have a video.
+  document.querySelectorAll(".watch-link").forEach((btn) => {
+    if (btn.classList.contains("guide-link")) {
+      btn.classList.toggle("hidden", !ids[btn.dataset.video]);   // a guide link needs its own video
+    } else {
+      if (!ids[btn.dataset.video]) btn.dataset.video = kinds[0];  // the hero button opens any video there is
+      btn.classList.remove("hidden");
+    }
+  });
+  tabs.forEach((t) => t.classList.toggle("hidden", !ids[t.dataset.video]));
+  modal.querySelector(".video-switch").classList.toggle("hidden", kinds.length < 2);
+
+  const show = (kind) => {
+    tabs.forEach((t) => {
+      const on = t.dataset.video === kind;
+      t.classList.toggle("active", on);
+      t.setAttribute("aria-pressed", String(on));
+    });
+    player.src = `https://www.youtube-nocookie.com/embed/${ids[kind]}?autoplay=1&rel=0&playsinline=1&modestbranding=1`;
+    note.textContent = VIDEOS[kind].note;
+  };
+
+  document.querySelectorAll(".watch-link").forEach((btn) =>
+    btn.addEventListener("click", () => {
+      show(btn.dataset.video);
+      modal.showModal();
+    })
+  );
+  tabs.forEach((t) => t.addEventListener("click", () => show(t.dataset.video)));
+  modal.querySelector(".video-close").addEventListener("click", () => modal.close());
+  // A tap on the dark area around the popup closes it too.
+  modal.addEventListener("click", (e) => { if (e.target === modal) modal.close(); });
+  modal.addEventListener("close", () => player.removeAttribute("src"));
 })();

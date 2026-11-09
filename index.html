@@ -66,6 +66,11 @@
           </a>
           <a class="text-link" href="#install">How to install</a>
         </div>
+        <!-- Opens the video guides (script.js, part 7). Hidden until a YouTube link is set there. -->
+        <button class="watch-btn watch-link hidden" type="button" data-video="commuter">
+          <span class="watch-play"><i class="ph-fill ph-play"></i></span>
+          <span class="btn-stack"><span>Watch how it works</span><small>2-minute video guides</small></span>
+        </button>
         <p class="fine">Android phones only. Not available for iPhone yet.</p>
       </div>
 
@@ -127,6 +132,7 @@
           <li><i class="ph ph-wallet"></i><div><strong>Pay cash or GCash</strong><span>Pay the driver in cash, or send GCash and attach your receipt in the app.</span></div></li>
           <li><i class="ph ph-student"></i><div><strong>Student, senior and PWD discount</strong><span>Attach your ID once and the discount is applied when you book.</span></div></li>
         </ul>
+        <button class="text-link watch-link guide-link hidden" type="button" data-video="commuter"><i class="ph-fill ph-play-circle"></i> Watch the commuter guide (2:17)</button>
       </div>
 
       <div id="panel-driver" class="role-panel" role="tabpanel" aria-labelledby="tab-driver" hidden>
@@ -138,6 +144,7 @@
           <li><i class="ph ph-check-circle"></i><div><strong>Confirm GCash payments</strong><span>Check the passenger's receipt and mark the payment received.</span></div></li>
           <li><i class="ph ph-seal-check"></i><div><strong>Approved by your TODA and BTODF</strong><span>Sign up with your license, OR/CR, mayor's permit and franchise. Your TODA President and BTODF approve you before your first trip.</span></div></li>
         </ul>
+        <button class="text-link watch-link guide-link hidden" type="button" data-video="driver"><i class="ph-fill ph-play-circle"></i> Watch the driver guide (2:15)</button>
       </div>
     </section>
 
@@ -269,6 +276,22 @@
     <p class="poster-url">grykzx.github.io/trigo-releases</p>
     <p class="poster-small">Bolinao Tricycle Operators and Drivers Federation (BTODF)</p>
   </div>
+
+  <!-- Video guides popup (script.js, part 7). The YouTube player only loads when it opens. -->
+  <dialog class="video-modal" id="videoModal" aria-labelledby="videoTitle">
+    <div class="video-head">
+      <h2 id="videoTitle">See TriGo in action</h2>
+      <div class="role-switch video-switch" aria-label="Choose a guide">
+        <button type="button" class="role-tab video-tab" data-video="commuter" aria-pressed="true">For commuters</button>
+        <button type="button" class="role-tab video-tab" data-video="driver" aria-pressed="false">For drivers</button>
+      </div>
+      <button class="video-close" type="button" aria-label="Close the video"><i class="ph ph-x"></i></button>
+    </div>
+    <div class="video-frame">
+      <iframe id="videoPlayer" title="TriGo video guide" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+    <p class="video-note" id="videoNote"></p>
+  </dialog>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="script.js"></script>

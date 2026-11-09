@@ -393,6 +393,77 @@ main > section { padding: 88px max(16px, calc((100% - var(--page)) / 2)); }
 .footer-small { margin-top: 8px; font-size: 13px; color: var(--taupe); }
 .footer-small a { color: var(--terracotta-dark); font-weight: 600; margin-left: 6px; }
 
+/* ===== Video guides (script.js, part 7) ===== */
+/* "Watch how it works" under the hero buttons */
+.watch-btn {
+  display: inline-flex; align-items: center; gap: 12px;
+  margin-top: 22px; padding: 8px 18px 8px 8px;
+  font: inherit; font-weight: 700; color: var(--cacao); text-align: left;
+  background: var(--white); border: 1.5px solid var(--border); border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.2s;
+}
+.watch-btn:hover { border-color: var(--terracotta); box-shadow: 0 6px 18px rgba(122, 63, 32, 0.14); }
+.watch-btn small { color: var(--taupe); }
+.watch-play {
+  width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+  background: var(--terracotta); color: var(--white);
+  display: inline-flex; align-items: center; justify-content: center; font-size: 16px;
+}
+.watch-play i { margin-left: 2px; }   /* the triangle looks centred */
+@media (prefers-reduced-motion: no-preference) {
+  .watch-btn:hover .watch-play { animation: playPulse 1.2s ease-out infinite; }
+  @keyframes playPulse {
+    0% { box-shadow: 0 0 0 0 rgba(193, 102, 61, 0.45); }
+    100% { box-shadow: 0 0 0 12px rgba(193, 102, 61, 0); }
+  }
+}
+/* "Watch the commuter / driver guide" under each feature list */
+.guide-link { margin-top: 34px; font-size: 15.5px; }
+.guide-link i { font-size: 22px; text-decoration: none; }
+
+/* The popup */
+.video-modal {
+  width: min(960px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  margin: auto;
+  padding: 20px 20px 16px;
+  border: none; border-radius: 22px;
+  background: var(--ivory); color: var(--cacao);
+  box-shadow: 0 30px 80px -20px rgba(28, 18, 15, 0.6);
+}
+.video-modal::backdrop { background: rgba(38, 25, 21, 0.72); backdrop-filter: blur(3px); }
+html:has(.video-modal[open]) { overflow: hidden; }   /* the page behind doesn't scroll */
+.video-head { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+.video-head h2 { font-size: clamp(22px, 2.6vw, 28px); margin-right: auto; }
+.video-switch .role-tab { font-size: 14px; padding: 8px 16px; }
+.video-close {
+  width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+  border: 1.5px solid var(--border); background: var(--white); color: var(--cacao);
+  font-size: 20px; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.video-close:hover { border-color: var(--terracotta); color: var(--terracotta); }
+.video-frame {
+  aspect-ratio: 16 / 9; width: 100%;
+  border-radius: 14px; overflow: hidden; background: var(--cacao-deep);
+}
+.video-frame iframe { width: 100%; height: 100%; border: 0; display: block; }
+.video-note { font-size: 14px; color: var(--taupe); margin-top: 12px; }
+@media (max-width: 560px) {
+  .video-modal { padding: 14px 12px 12px; border-radius: 18px; }
+  .video-head { gap: 10px; }
+  .video-head h2 { flex-basis: calc(100% - 56px); }
+  .video-switch { order: 3; width: 100%; }
+  .video-switch .role-tab { flex: 1; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .video-modal[open] { animation: videoIn 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+  .video-modal[open]::backdrop { animation: fadeIn 0.3s ease-out; }
+  @keyframes videoIn { from { opacity: 0; transform: translateY(16px) scale(0.97); } }
+  @keyframes fadeIn { from { opacity: 0; } }
+}
+
 /* ===== Printed poster ===== */
 .poster { display: none; }
 /* ===== MOTION (script.js, part 6) =====
